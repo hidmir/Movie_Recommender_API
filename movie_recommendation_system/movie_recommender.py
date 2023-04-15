@@ -8,7 +8,7 @@ with open('movies_data.json', 'r') as file:
     movies = pd.read_json(file)
 
 
-def get_all_movies():
+def get_movies_list():
     return movies.to_dict(orient="records")
 
 
