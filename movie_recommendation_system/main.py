@@ -1,13 +1,10 @@
 from fastapi import FastAPI
+from typing import List
+from movie_recommender import get_all_movies
 
 app = FastAPI()
 
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
-
-
-@app.get("/hello/{name}")
-async def say_hello(name: str):
-    return {"message": f"Hello {name}"}
+@app.get("/movies", response_model=List[dict])
+async def get_movies_list():
+    return get_all_movies()
