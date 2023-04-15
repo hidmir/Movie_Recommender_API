@@ -1,5 +1,7 @@
 import pandas as pd
 import spacy
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.neighbors import NearestNeighbors
 
 
 with open('movies_data.json', 'r') as file:
@@ -21,3 +23,11 @@ def process_description(description, keywords=""):
 
 
 movies["processed_description"] = movies.apply(lambda row: process_description(row["description"], row["keywords"]), axis=1)
+
+
+tfidf_vectorizer = TfidfVectorizer()
+tfidf_matrix = tfidf_vectorizer.fit_transform(movies["processed_description"])
+
+
+nearest_neighbors_model = NearestNeighbors(n_neighbors=5, metric="cosine")
+nearest_neighbors_model.fit(tfidf_matrix)
