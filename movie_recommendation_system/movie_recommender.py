@@ -11,3 +11,13 @@ def get_all_movies():
 
 
 nlp = spacy.load("en_core_web_md")
+
+
+def process_description(description, keywords=""):
+    text = description + " " + keywords
+    doc = nlp(text)
+    processed_description = [token.lemma_ for token in doc if not token.is_stop and not token.is_punct]
+    return " ".join(processed_description)
+
+
+movies["processed_description"] = movies.apply(lambda row: process_description(row["description"], row["keywords"]), axis=1)
