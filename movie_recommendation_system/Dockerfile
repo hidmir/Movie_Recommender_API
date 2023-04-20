@@ -1,6 +1,6 @@
 FROM python:3.9
 
-WORKDIR /app
+WORKDIR /app/movie_recommendation_system
 
 COPY requirements.txt .
 
