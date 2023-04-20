@@ -30,13 +30,13 @@ jobs:
 
     - name: Log in to Railway
       run: |
-        echo "${{ secrets.RAILWAY_TOKEN }}" | docker login --username=_ --password-stdin registry.railway.app
+        echo "${{ secrets.RAILWAY_TOKEN }}" | docker login --username=_ --password-stdin containers.railway.app
 
     - name: Build Docker image
-      run: docker build . -t registry.railway.app/${{ secrets.RAILWAY_PROJECT_NAME }}/fastapi:latest
+      run: docker build . -t containers.railway.app/${{ secrets.RAILWAY_PROJECT_NAME }}/fastapi:latest
 
     - name: Push Docker image
-      run: docker push registry.railway.app/${{ secrets.RAILWAY_PROJECT_NAME }}/fastapi:latest
+      run: docker push containers.railway.app/${{ secrets.RAILWAY_PROJECT_NAME }}/fastapi:latest
 
     - name: Deploy to Railway
       run: |
