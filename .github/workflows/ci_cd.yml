@@ -28,20 +28,11 @@ jobs:
       run: |
         flake8 . --count --select=F401,F403,E402,E901,E902,E999,F823,F841 --show-source --statistics
 
-    - name: Log in to Railway
-      run: |
-        echo "${{ secrets.RAILWAY_TOKEN }}" | docker login --username=_ --password-stdin containers.railway.app
-
-    - name: Build Docker image
-      run: docker build movie_recommendation_system -t containers.railway.app/${{ secrets.RAILWAY_PROJECT_NAME }}/fastapi:latest
-
-    - name: Push Docker image
-      run: docker push containers.railway.app/${{ secrets.RAILWAY_PROJECT_NAME }}/fastapi:latest
-
     - name: Install Railway
       run: npm i -g @railway/cli
 
     - name: Deploy
+      working-directory: movie_recommendation_system
       run: railway up
       env:
         RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
