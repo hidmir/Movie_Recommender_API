@@ -27,3 +27,21 @@ jobs:
     - name: Lint with flake8
       run: |
         flake8 . --count --select=F401,F403,E402,E901,E902,E999,F823,F841 --show-source --statistics
+
+    - name: Log in to Railway
+      run: |
+        echo "${{ secrets.RAILWAY_TOKEN }}" | docker login --username=_ --password-stdin registry.railway.app
+
+    - name: Build Docker image
+      run: docker build . -t registry.railway.app/${{ secrets.RAILWAY_PROJECT_NAME }}/fastapi:latest
+
+    - name: Push Docker image
+      run: docker push registry.railway.app/${{ secrets.RAILWAY_PROJECT_NAME }}/fastapi:latest
+
+    - name: Deploy to Railway
+      run: |
+        curl -sSL https://install.railway.app/cli | bash
+        export PATH="$HOME/.railway/bin:$PATH"
+        echo "${{ secrets.RAILWAY_TOKEN }}" | railway login
+        railway link ${{ secrets.RAILWAY_PROJECT_ID }}
+        railway up
