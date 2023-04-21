@@ -1,7 +1,5 @@
 FROM python:3.9
 
-ARG PORT
-
 WORKDIR /app
 
 COPY requirements.txt .
